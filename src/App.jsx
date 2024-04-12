@@ -38,7 +38,8 @@ function App() {
           {/* Render forecast component with weather forecast data */}
           {weather.forecast && (
             <>
-              <Forecast title='hourly Forecast' data={weather.forecast.hourly} />
+              {/* Pass hourly forecast data to Forecast component */}
+              {/* <Forecast title='Hourly Forecast' data={weather.forecast.hourly} /> */}
               <Forecast title='Daily Forecast' data={weather.forecast.daily} />
             </>
           )}

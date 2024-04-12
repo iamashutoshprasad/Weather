@@ -54,7 +54,7 @@ const formatForecastWeather = async (searchParams) => {
 
   const filteredForecastData = forecastData
     .filter((item, index) => index % 8 === 0)
-    .slice(1, 6);
+    .slice(0,7);
 
   const formattedForecast = filteredForecastData.map((forecast) => ({
     title: formatToLocalTime(forecast.dt, forecast.timezone, "ccc"),
