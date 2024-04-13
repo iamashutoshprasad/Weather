@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { UilSearch, UilLocationPoint } from '@iconscout/react-unicons';
+//import { toast } from 'react-toastify';
+import { getCurrentWeatherData, getForecastData } from '../services/weatherService';
 
 function Inputs({ setQuery, units, setUnits }) {
   const [city, setCity] = useState('');
 
   const handleSearchClick = () => {
     if (city !== '') setQuery(city);
+    
   };
+
+  
+
+     
 
   return (
     <div className='flex flex-row justify-center my-6'>
@@ -19,7 +26,7 @@ function Inputs({ setQuery, units, setUnits }) {
           className='text-xl font-light p-2 w-full shadow-xl focus:outline-none lowercase rounded'
         />
         <UilSearch size={32} className='text-white cursor-pointer transition ease-out hover:scale-125' onClick={handleSearchClick} />
-        <UilLocationPoint size={32} className='text-white cursor-pointer transition ease-out hover:scale-125' />
+        {/* <UilLocationPoint size={32} className='text-white cursor-pointer transition ease-out hover:scale-125' onClick={getLocation} /> */}
       </div>
       <div className='flex flex-row w-1/4 items-center justify-center'>
         <button name='metric' className='text-xl text-white font-light transition ease-out hover:scale-125' onClick={() => setUnits('metric')}>

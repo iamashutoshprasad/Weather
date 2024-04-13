@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const [query, setQuery] = useState('lucknow'); // Initialize with city name
   const [units, setUnits] = useState('metric');
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +22,7 @@ function App() {
         const formattedWeather = { ...currentWeather, forecast: forecastWeather };
 
         setWeather(formattedWeather);
+
       } catch (error) {
         console.error('Error fetching weather data:', error);
       }
@@ -29,20 +30,32 @@ function App() {
 
     fetchData();
   }, [query, units]);
+  const formatBackground = () => {
+    if (!weather) return "from-cyan-700 to-blue-700";
+    const threshold = units === "metric" ? 20 : 60;
+    if (weather.temp <= threshold) return "from-cyan-700 to-blue-700";
+
+    return "from-yellow-700 to-orange-700";
+  };
 
   return (
-    <div className='mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400'>
+    <div
+      className={`mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br  h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}
+    >
       <TopButtons setQuery={setQuery} />
       <Inputs setQuery={setQuery} units={units} setUnits={setUnits} />
       {weather && (
         <div>
           <TimeAndLocation weather={weather} />
           <TempuratureAndDetails weather={weather} />
-          {weather.forecast && (
+          {/* {weather.forecast && (
             <>
-              <Forecast title='Daily Forecast' data={weather.forecast.daily} />
+              <Forecast title='Daily Forecast' items= {weather.forecast} 
+              />
+         
+
             </>
-          )}
+          )} */}
         </div>
       )}
     </div>

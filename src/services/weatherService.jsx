@@ -1,16 +1,22 @@
+
 import { DateTime } from "luxon";
 
 const API_KEY = "cf57814bcafb8f9a7a7d3c5bced6ee58";
 const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
-const getWeatherData = (infoType, searchParams) => {
+const getWeatherData = async (infoType, searchParams) => {
   const url = new URL(BASE_URL + "/" + infoType);
   url.search = new URLSearchParams({ ...searchParams, appid: API_KEY });
 
-  return fetch(url).then((res) => res.json());
+  const res = await fetch(url);
+  return await res.json();
 };
 
 const formatCurrentWeather = (data) => {
+  if (!data.coord) {
+    throw new Error("Coordinate information not available");
+  }
+
   const {
     coord: { lat, lon },
     main: { temp, feels_like, temp_min, temp_max, humidity },
@@ -42,6 +48,7 @@ const formatCurrentWeather = (data) => {
   };
 };
 
+
 const formatForecastWeather = async (searchParams) => {
   const currentWeather = await getWeatherData("weather", searchParams);
   const { coord } = currentWeather;
@@ -52,7 +59,7 @@ const formatForecastWeather = async (searchParams) => {
 
   const filteredForecastData = forecastData
     .filter((item, index) => index % 8 === 0)
-    .slice(0, 7);
+    .slice(0, 6);
 
   const formattedForecast = filteredForecastData.map((forecast) => ({
     title: formatToLocalTime(forecast.dt, forecast.timezone, "ccc"),
@@ -73,6 +80,7 @@ const getCurrentWeatherData = async (query, units) => {
 
 const getForecastData = async (query, units) => {
   const forecastWeather = await formatForecastWeather({ q: query, units });
+  
   return forecastWeather;
 };
 
