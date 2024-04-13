@@ -1,5 +1,3 @@
-// weatherService.jsx
-
 import { DateTime } from "luxon";
 
 const API_KEY = "cf57814bcafb8f9a7a7d3c5bced6ee58";
@@ -54,7 +52,7 @@ const formatForecastWeather = async (searchParams) => {
 
   const filteredForecastData = forecastData
     .filter((item, index) => index % 8 === 0)
-    .slice(0,7);
+    .slice(0, 7);
 
   const formattedForecast = filteredForecastData.map((forecast) => ({
     title: formatToLocalTime(forecast.dt, forecast.timezone, "ccc"),
@@ -68,13 +66,13 @@ const formatForecastWeather = async (searchParams) => {
   };
 };
 
-const getCurrentWeatherData = async (searchParams) => {
-  const currentWeather = await getWeatherData("weather", searchParams);
+const getCurrentWeatherData = async (query, units) => {
+  const currentWeather = await getWeatherData("weather", { q: query, units });
   return formatCurrentWeather(currentWeather);
 };
 
-const getForecastData = async (searchParams) => {
-  const forecastWeather = await formatForecastWeather(searchParams);
+const getForecastData = async (query, units) => {
+  const forecastWeather = await formatForecastWeather({ q: query, units });
   return forecastWeather;
 };
 
