@@ -9,7 +9,7 @@ import { getCurrentWeatherData, getForecastData } from './services/weatherServic
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [query, setQuery] = useState('lucknow'); // Initialize with city name
+  const [query, setQuery] = useState('delhi'); // Initialize with city name
   const [units, setUnits] = useState('metric');
   const [weather, setWeather] = useState('');
 
@@ -30,6 +30,7 @@ function App() {
 
     fetchData();
   }, [query, units]);
+
   const formatBackground = () => {
     if (!weather) return "from-cyan-700 to-blue-700";
     const threshold = units === "metric" ? 20 : 60;
@@ -48,14 +49,11 @@ function App() {
         <div>
           <TimeAndLocation weather={weather} />
           <TempuratureAndDetails weather={weather} />
-          {/* {weather.forecast && (
+          {weather.forecast && (
             <>
-              <Forecast title='Daily Forecast' items= {weather.forecast} 
-              />
-         
-
+              <Forecast title='Daily Forecast' items={weather.forecast} />
             </>
-          )} */}
+          )} 
         </div>
       )}
     </div>
